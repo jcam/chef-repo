@@ -14,9 +14,6 @@ root          ALL=(ALL) ALL
 <%= user %>		<%= userhash['perms'] or "ALL=(ALL)" %> <%= "NOPASSWD:" if @passwordless and userhash['passwordless'] != false or userhash['passwordless'] %><%= userhash['commands'] or "ALL" %>
 <% end -%>
 
-# Members of the sysadmin group may gain root privileges
-%sysadmin     ALL=(ALL) <%= "NOPASSWD:" if @passwordless %>ALL
-
 <% @sudoers_groups.each do |group,grouphash| -%>
 <% grouphash = {} unless grouphash -%>
 # Members of the group '<%= group %>' may gain root privileges
