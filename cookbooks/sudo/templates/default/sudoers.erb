@@ -9,13 +9,15 @@ Defaults        !lecture,tty_tickets,!fqdn
 # User privilege specification
 root          ALL=(ALL) ALL
 
-<% @sudoers_users.each do |user,userhash| -%>
-<% userhash = {} unless userhash -%>
+<% @sudoers_users.each do |user| -%>
+<% userhash = (user.is_a? Hash) ? user : {} -%>
+<% user = user['name'] if user.is_a? Hash -%>
 <%= user %>		<%= userhash['perms'] or "ALL=(ALL)" %> <%= "NOPASSWD:" if @passwordless and userhash['passwordless'] != false or userhash['passwordless'] %><%= userhash['commands'] or "ALL" %>
 <% end -%>
 
-<% @sudoers_groups.each do |group,grouphash| -%>
-<% grouphash = {} unless grouphash -%>
+<% @sudoers_groups.each do |group| -%>
+<% grouphash = (group.is_a? Hash) ? group : {} -%>
+<% group = group['name'] if group.is_a? Hash -%>
 # Members of the group '<%= group %>' may gain root privileges
 %<%= group %>		<%= grouphash['perms'] or "ALL=(ALL)" %> <%= "NOPASSWD:" if @passwordless and grouphash['passwordless'] != false or grouphash['passwordless'] %><%= grouphash['commands'] or "ALL" %>
 <% end -%>
